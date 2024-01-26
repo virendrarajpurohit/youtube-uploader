@@ -14,7 +14,7 @@ StealthPlugin.enabledEvasions.delete('navigator.plugins');
 puppeteer_extra_1.default.use(StealthPlugin);
 const maxTitleLen = 100;
 const maxDescLen = 5000;
-const timeout = 45000;
+const timeout = 50000;
 const height = 900;
 const width = 900;
 let browser, page;
@@ -980,7 +980,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // password isnt required in the case that a code was sent via google auth
     else {
        
-        console.log("tii");
+        console.log("pii");
       const extractedTextNew = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
