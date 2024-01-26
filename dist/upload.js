@@ -45,9 +45,9 @@ const upload = async (credentials, videos, puppeteerLaunch, messageTransport = d
     if (!useCookieStore) {
         messageTransport.log(`UserDataDir detected in options. Disabling cookie store.`);
     }
-    messageTransport.debug("Launching browser...");
+    messageTransport.debug("Launching browser successful...");
     await launchBrowser(puppeteerLaunch, useCookieStore);
-    messageTransport.debug("Browser successfully launched");
+    messageTransport.debug("Browser successfully done");
     try {
         await loadAccount(credentials, messageTransport, useCookieStore);
         messageTransport.debug("Account loaded");
