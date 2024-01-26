@@ -961,7 +961,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // check if 2fa code was sent to phone
     await localPage.waitForNavigation();
     await localPage.waitForTimeout(1000);
-    const content = await page.content(); 
+    await page.screenshot({ path: `./bee_homepage1.jpg` });
     console.log(content);
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
@@ -972,9 +972,9 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     }
     // password isnt required in the case that a code was sent via google auth
     else {
-        const content = await page.content(); 
-        console.log(content); 
-        console.log("bii");
+        await page.screenshot({ path: `./bee_homepage.jpg` });
+        console.log("tii");
+        await page.screenshot({ path: `./bee_homepage2.jpg` });
         const passwordInputSelector = 'input[type="password"]:not([aria-hidden="true"])';
         await localPage.waitForSelector(passwordInputSelector);
         await localPage.waitForTimeout(3000);
