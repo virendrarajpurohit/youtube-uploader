@@ -980,7 +980,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // password isnt required in the case that a code was sent via google auth
     else {
        
-        console.log("pii");
+        console.log("lii");
       const extractedTextNew = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
