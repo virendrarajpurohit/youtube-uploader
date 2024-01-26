@@ -961,7 +961,14 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // check if 2fa code was sent to phone
     await localPage.waitForNavigation();
     await localPage.waitForTimeout(1000);
-    await page.screenshot({ path: `./bee_homepage1.jpg` });
+     const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
     if (isOnGoogleAppAuthPage) {
@@ -971,9 +978,16 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     }
     // password isnt required in the case that a code was sent via google auth
     else {
-        await page.screenshot({ path: `./bee_homepage.jpg` });
+       
         console.log("tii");
-        await page.screenshot({ path: `./bee_homepage2.jpg` });
+      const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
         const passwordInputSelector = 'input[type="password"]:not([aria-hidden="true"])';
         await localPage.waitForSelector(passwordInputSelector);
         await localPage.waitForTimeout(3000);
