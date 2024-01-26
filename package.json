@@ -2,10 +2,10 @@
   "name": "youtube-videos-uploader",
   "version": "2.0.25",
   "description": "Uploads videos to youtube without any limits",
-  "main": "dist/index.js",
-  "types": "dist",
+  "main": "dist2/index.js",
+  "types": "dist2",
   "files": [
-    "dist",
+    "dist2",
     "auth",
     "test"
   ],
