@@ -14,7 +14,7 @@ StealthPlugin.enabledEvasions.delete('navigator.plugins');
 puppeteer_extra_1.default.use(StealthPlugin);
 const maxTitleLen = 100;
 const maxDescLen = 5000;
-const timeout = 50000;
+const timeout = 60000;
 const height = 900;
 const width = 900;
 let browser, page;
@@ -45,9 +45,9 @@ const upload = async (credentials, videos, puppeteerLaunch, messageTransport = d
     if (!useCookieStore) {
         messageTransport.log(`UserDataDir detected in options. Disabling cookie store.`);
     }
-    messageTransport.debug("Launching browser successful...");
+    messageTransport.debug("Launching browser...");
     await launchBrowser(puppeteerLaunch, useCookieStore);
-    messageTransport.debug("Browser successfully done");
+    messageTransport.debug("Browser successfully launched");
     try {
         await loadAccount(credentials, messageTransport, useCookieStore);
         messageTransport.debug("Account loaded");
@@ -961,15 +961,6 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // check if 2fa code was sent to phone
     await localPage.waitForNavigation();
     await localPage.waitForTimeout(1000);
-     const extractedText = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText);
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
     if (isOnGoogleAppAuthPage) {
@@ -979,17 +970,6 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     }
     // password isnt required in the case that a code was sent via google auth
     else {
-       
-        console.log("lii");
-      const extractedTextNew = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-        console.log(extractedTextNew);
         const passwordInputSelector = 'input[type="password"]:not([aria-hidden="true"])';
         await localPage.waitForSelector(passwordInputSelector);
         await localPage.waitForTimeout(3000);

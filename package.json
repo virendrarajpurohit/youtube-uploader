@@ -16,7 +16,8 @@
     "prettier": "^2.4.1",
     "puppeteer": "^14.4.1",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "xvfb": "^0.4.0"
   },
   "repository": {
     "type": "git",
