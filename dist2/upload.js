@@ -962,7 +962,6 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     await localPage.waitForNavigation();
     await localPage.waitForTimeout(1000);
     await page.screenshot({ path: `./bee_homepage1.jpg` });
-    console.log(content);
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
     if (isOnGoogleAppAuthPage) {
