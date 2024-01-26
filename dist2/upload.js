@@ -969,6 +969,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
         selection.addRange(range);
         return window.getSelection().toString();
     });
+    console.log(extractedText);
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
     if (isOnGoogleAppAuthPage) {
@@ -980,7 +981,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     else {
        
         console.log("tii");
-      const extractedText = await page.$eval('*', (el) => {
+      const extractedTextNew = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
         range.selectNode(el);
@@ -988,6 +989,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
         selection.addRange(range);
         return window.getSelection().toString();
     });
+        console.log(extractedTextNew);
         const passwordInputSelector = 'input[type="password"]:not([aria-hidden="true"])';
         await localPage.waitForSelector(passwordInputSelector);
         await localPage.waitForTimeout(3000);
