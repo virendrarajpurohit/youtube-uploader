@@ -118,15 +118,24 @@ async function uploadVideo(videoJSON, messageTransport) {
     const saveCloseBtnXPath = '//*[@aria-label="Save and close"]/tp-yt-iron-icon';
     const createBtnXPath = '//*[@id="create-icon"]/tp-yt-iron-icon';
     const addVideoBtnXPath = '//*[@id="text-item-0"]/ytcp-ve/div/div/yt-formatted-string';
-    if (await page.waitForXPath(createBtnXPath, { timeout: 3000 }).catch(() => null)) {
+    if (await page.waitForXPath(createBtnXPath, { timeout: 5000 }).catch(() => null)) {
         const createBtn = await page.$x(createBtnXPath);
         await createBtn[0].click();
     }
-    if (await page.waitForXPath(addVideoBtnXPath, { timeout: 3000 }).catch(() => null)) {
+    if (await page.waitForXPath(addVideoBtnXPath, { timeout: 5000 }).catch(() => null)) {
         const addVideoBtn = await page.$x(addVideoBtnXPath);
         await addVideoBtn[0].click();
     }
-
+        
+    const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText);
     for (let i = 0; i < 2; i++) {
         try {
             await page.waitForXPath(selectBtnXPath);
@@ -406,15 +415,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     await sleep(100);
     await next[0].click();
     //await sleep(3000);
-        const extractedText = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText);
+
     if (videoJSON.publishType) {
         
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
