@@ -429,10 +429,10 @@ async function uploadVideo(videoJSON, messageTransport) {
     // save youtube upload link
     
     const nextBtnXPathgv = "//*[normalize-space(text())='Next']";
-    let next;
+    let next2;
     await page.waitForXPath(nextBtnXPathgv);
-    next = await page.$x(nextBtnXPathgv);
-    await next[0].click();
+    next2 = await page.$x(nextBtnXPathgv);
+    await next2[0].click();
         const extractedText4 = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
