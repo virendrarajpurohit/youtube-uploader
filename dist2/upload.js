@@ -338,7 +338,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         await page.waitForSelector("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
         await page.click("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
     }
-    Selecting video language
+   // Selecting video language
     if (videoLang) {
         const langHandler = await page.$x("//*[normalize-space(text())='Video language']");
         await page.evaluate((el) => el.click(), langHandler[0]);
@@ -349,7 +349,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         await page.evaluate((el) => el.click(), langName[langName.length - 1]);
         messageTransport.debug(`  >> ${videoJSON.title} - Video language set to ${videoLang}`);
     }
-    Setting Game Title ( Will also set Category to gaming )
+    //Setting Game Title ( Will also set Category to gaming )
     if (gameTitleSearch) {
         const resultSelectGame = await selectGame(page, gameTitleSearch, messageTransport, videoJSON.gameSelector);
         if (resultSelectGame) {
