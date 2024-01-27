@@ -403,9 +403,10 @@ async function uploadVideo(videoJSON, messageTransport) {
     await sleep(100);
     next = await page.$x(nextBtnXPath);
     await next[0].click();
+    await sleep(5000);
     if (videoJSON.publishType) {
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(500);
         await page.click('#privacy-radios *[name="' + videoJSON.publishType + '"]');
         messageTransport.debug(`  >> ${videoJSON.title} - Publish type set`);
     }
@@ -429,7 +430,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     });
     console.log(extractedText);
     do {
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(1000);
         uploadedLink = await page.evaluate((e) => e.getAttribute('href'), uploadedLinkHandle);
     } while (uploadedLink === videoBaseLink || uploadedLink === shortVideoBaseLink);
     const closeDialogXPath = uploadAsDraft ? saveCloseBtnXPath : publishXPath;
