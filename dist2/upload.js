@@ -126,15 +126,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         const addVideoBtn = await page.$x(addVideoBtnXPath);
         await addVideoBtn[0].click();
     }
-        const extractedText = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText);
+
     for (let i = 0; i < 2; i++) {
         try {
             await page.waitForXPath(selectBtnXPath);
@@ -329,15 +321,6 @@ async function uploadVideo(videoJSON, messageTransport) {
     //     }
     //      console.log( "Show more finished." )
     // }
-        const extractedText2 = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText2);
     // Add tags
     if (tags) {
         //show more
@@ -422,7 +405,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     await next[0].click();
     if (videoJSON.publishType) {
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(300);
         await page.click('#privacy-radios *[name="' + videoJSON.publishType + '"]');
         messageTransport.debug(`  >> ${videoJSON.title} - Publish type set`);
     }
@@ -436,8 +419,17 @@ async function uploadVideo(videoJSON, messageTransport) {
     await page.waitForSelector(uploadLinkSelector);
     const uploadedLinkHandle = await page.$(uploadLinkSelector);
     let uploadedLink;
+        const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText);
     do {
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(100);
         uploadedLink = await page.evaluate((e) => e.getAttribute('href'), uploadedLinkHandle);
     } while (uploadedLink === videoBaseLink || uploadedLink === shortVideoBaseLink);
     const closeDialogXPath = uploadAsDraft ? saveCloseBtnXPath : publishXPath;
