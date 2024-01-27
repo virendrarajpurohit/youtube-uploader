@@ -923,7 +923,7 @@ async function changeHomePageLangIfNeeded(localPage) {
 async function launchBrowser(puppeteerLaunch, loadCookies = true) {
     browser = await puppeteer_extra_1.default.launch(puppeteerLaunch);
     page = await browser.newPage();
-    await page.setBypassCSP(true)
+    await page.setBypassCSP(true);
     await page.setDefaultTimeout(timeout);
     if (loadCookies) {
         const previousSession = fs_extra_1.default.existsSync(cookiesFilePath);
@@ -943,6 +943,7 @@ async function launchBrowser(puppeteerLaunch, loadCookies = true) {
 async function login(localPage, credentials, messageTransport, useCookieStore = true) {
     var _a;
     await localPage.goto(uploadURL);
+    await page.setBypassCSP(true);
     if (!useCookieStore) {
         try {
             // Check if already logged in if we don't use normal cookie store
@@ -955,6 +956,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
         catch (_b) { }
     }
     await changeLoginPageLangIfNeeded(localPage);
+    await page.setBypassCSP(true);
     const emailInputSelector = 'input[type="email"]';
     await localPage.waitForSelector(emailInputSelector);
     await localPage.type(emailInputSelector, credentials.email, { delay: 50 });
@@ -990,6 +992,7 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     });
     console.log(extractedText);
         console.log("hhhiii");
+        await page.setBypassCSP(true);
         const passwordInputSelector = 'input[type="password"]:not([aria-hidden="true"])';
         await localPage.waitForSelector(passwordInputSelector);
         await localPage.waitForTimeout(3000);
