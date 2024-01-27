@@ -126,6 +126,15 @@ async function uploadVideo(videoJSON, messageTransport) {
         const addVideoBtn = await page.$x(addVideoBtnXPath);
         await addVideoBtn[0].click();
     }
+        const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText);
     for (let i = 0; i < 2; i++) {
         try {
             await page.waitForXPath(selectBtnXPath);
@@ -964,15 +973,6 @@ async function login(localPage, credentials, messageTransport, useCookieStore = 
     // check if 2fa code was sent to phone
     await localPage.waitForNavigation();
     await localPage.waitForTimeout(1000);
-        const extractedText = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText);
     const googleAppAuthSelector = 'samp';
     const isOnGoogleAppAuthPage = await localPage.evaluate((authCodeSelector) => document.querySelector(authCodeSelector) !== null, googleAppAuthSelector);
     if (isOnGoogleAppAuthPage) {
