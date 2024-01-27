@@ -329,7 +329,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         }
         // console.log( "Show more finished." )
     }
-        const extractedText = await page.$eval('*', (el) => {
+        const extractedText2 = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
         range.selectNode(el);
@@ -337,7 +337,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         selection.addRange(range);
         return window.getSelection().toString();
     });
-    console.log(extractedText);
+    console.log(extractedText2);
     // Add tags
     if (tags) {
         //show more
