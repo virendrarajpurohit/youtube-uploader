@@ -325,10 +325,19 @@ async function uploadVideo(videoJSON, messageTransport) {
         while ((await page.$('ytcp-video-metadata-editor-advanced')) == undefined) {
             // console.log( "Show more while." )
             await showMoreButton.click();
-            await sleep(1000);
+            await sleep(3000);
         }
         // console.log( "Show more finished." )
     }
+        const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText);
     // Add tags
     if (tags) {
         //show more
