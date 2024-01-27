@@ -359,7 +359,7 @@ async function uploadVideo(videoJSON, messageTransport) {
             messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
         }
     }
-    const nextBtnXPath = "//*[normalize-space(text())='Next']/parent::*[not(@disabled)]";
+    const nextBtnXPath = "//*[normalize-space(text())='Next']";
     let next;
     await page.waitForXPath(nextBtnXPath);
     next = await page.$x(nextBtnXPath);
@@ -424,7 +424,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         messageTransport.debug(`  >> ${videoJSON.title} - Publish type set`);
     }
     // Get publish button
-    const publishXPath = "//*[normalize-space(text())='Publish']/parent::*[not(@disabled)] | //*[normalize-space(text())='Save']/parent::*[not(@disabled)]";
+    const publishXPath = "//*[normalize-space(text())='Publish'] | //*[normalize-space(text())='Save']";
     await page.waitForXPath(publishXPath);
     // save youtube upload link
     const videoBaseLink = 'https://youtu.be';
