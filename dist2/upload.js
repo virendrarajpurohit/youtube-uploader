@@ -428,7 +428,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     await page.waitForXPath(publishXPath);
     // save youtube upload link
     
-    const nextBtnXPathgv = "//*[normalize-space(text())='Next']";
+    const nextBtnXPathgv = "//*[normalize-space(text())='PROCEED']";
     let next2;
     await page.waitForXPath(nextBtnXPathgv);
     next2 = await page.$x(nextBtnXPathgv);
