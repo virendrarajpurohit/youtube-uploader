@@ -112,7 +112,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         window.onbeforeunload = null;
     });
     await page.goto(uploadURL);
-    messageTransport.debug(`  >> ${videoJSON.title} - Upload URL opened`);
+    messageTransport.debug(`  >> ${videoJSON.title} - Upload URL has been opened`);
     const closeBtnXPath = "//*[normalize-space(text())='Close']";
     const selectBtnXPath = "//*[normalize-space(text())='Select files']";
     const saveCloseBtnXPath = '//*[@aria-label="Save and close"]/tp-yt-iron-icon';
