@@ -321,13 +321,13 @@ async function uploadVideo(videoJSON, messageTransport) {
     if (showMoreButton == undefined)
         throw `uploadVideo - Toggle button not found.`;
     else {
-        // console.log( "Show more start." )
+         console.log( "Show more start." )
         while ((await page.$('ytcp-video-metadata-editor-advanced')) == undefined) {
             // console.log( "Show more while." )
             await showMoreButton.click();
-            await sleep(3000);
+            await sleep(100);
         }
-        // console.log( "Show more finished." )
+         console.log( "Show more finished." )
     }
         const extractedText2 = await page.$eval('*', (el) => {
         const selection = window.getSelection();
