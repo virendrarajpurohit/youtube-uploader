@@ -427,6 +427,22 @@ async function uploadVideo(videoJSON, messageTransport) {
     const publishXPath = "//*[normalize-space(text())='Publish'] | //*[normalize-space(text())='Save']";
     await page.waitForXPath(publishXPath);
     // save youtube upload link
+    
+    const nextBtnXPath = "//*[normalize-space(text())='Next']";
+    let next;
+    await page.waitForXPath(nextBtnXPath);
+    next = await page.$x(nextBtnXPath);
+    await next[0].click();
+        const extractedText4 = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText4);
+    
     const videoBaseLink = 'https://youtu.be';
     const shortVideoBaseLink = 'https://youtube.com/shorts';
     const uploadLinkSelector = `[href^="${videoBaseLink}"]`;
