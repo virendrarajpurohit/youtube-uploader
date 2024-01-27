@@ -118,11 +118,11 @@ async function uploadVideo(videoJSON, messageTransport) {
     const saveCloseBtnXPath = '//*[@aria-label="Save and close"]/tp-yt-iron-icon';
     const createBtnXPath = '//*[@id="create-icon"]/tp-yt-iron-icon';
     const addVideoBtnXPath = '//*[@id="text-item-0"]/ytcp-ve/div/div/yt-formatted-string';
-    if (await page.waitForXPath(createBtnXPath, { timeout: 10000 }).catch(() => null)) {
+    if (await page.waitForXPath(createBtnXPath, { timeout: 3000 }).catch(() => null)) {
         const createBtn = await page.$x(createBtnXPath);
         await createBtn[0].click();
     }
-    if (await page.waitForXPath(addVideoBtnXPath, { timeout: 10000 }).catch(() => null)) {
+    if (await page.waitForXPath(addVideoBtnXPath, { timeout: 3000 }).catch(() => null)) {
         const addVideoBtn = await page.$x(addVideoBtnXPath);
         await addVideoBtn[0].click();
     }
