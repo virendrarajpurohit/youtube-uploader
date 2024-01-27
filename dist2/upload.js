@@ -359,12 +359,12 @@ async function uploadVideo(videoJSON, messageTransport) {
     //         messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
     //     }
     // }
-    
+    await sleep(15000);
     const nextBtnXPath = "//*[normalize-space(text())='Next']/parent::*[not(@disabled)]";
     let next;
     await page.waitForXPath(nextBtnXPath);
     next = await page.$x(nextBtnXPath);
-    await sleep(3000);
+    await sleep(100);
     await next[0].click();
     // if (videoJSON.isChannelMonetized) {
     //     try {
@@ -401,15 +401,15 @@ async function uploadVideo(videoJSON, messageTransport) {
     await page.waitForXPath(nextBtnXPath);
     // click next button
     next = await page.$x(nextBtnXPath);
-    await sleep(500);
+    await sleep(100);
     await next[0].click();
     await page.waitForXPath(nextBtnXPath);
     // click next button
     next = await page.$x(nextBtnXPath);
-    await sleep(500);
+    await sleep(100);
     await next[0].click();
     //await sleep(3000);
-            const extractedText = await page.$eval('*', (el) => {
+        const extractedText = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
         range.selectNode(el);
@@ -419,8 +419,10 @@ async function uploadVideo(videoJSON, messageTransport) {
     });
     console.log(extractedText);
     if (videoJSON.publishType) {
+        
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
-        await page.waitForTimeout(100);
+        console.log("1");
+        await page.waitForTimeout(500);
         await page.click('#privacy-radios *[name="' + videoJSON.publishType + '"]');
         messageTransport.debug(`  >> ${videoJSON.title} - Publish type set`);
     }
