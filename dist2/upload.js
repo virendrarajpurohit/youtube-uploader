@@ -405,6 +405,25 @@ async function uploadVideo(videoJSON, messageTransport) {
     next = await page.$x(nextBtnXPath);
     await next[0].click();
     console.log("2");
+            const extractedText = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText);
+    await sleep(10000);
+                const extractedText2 = await page.$eval('*', (el) => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return window.getSelection().toString();
+    });
+    console.log(extractedText2);
     if (videoJSON.publishType) {
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
         await page.waitForTimeout(100);
@@ -421,15 +440,6 @@ async function uploadVideo(videoJSON, messageTransport) {
     await page.waitForSelector(uploadLinkSelector);
     const uploadedLinkHandle = await page.$(uploadLinkSelector);
     let uploadedLink;
-        const extractedText = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText);
     do {
         await page.waitForTimeout(1000);
         uploadedLink = await page.evaluate((e) => e.getAttribute('href'), uploadedLinkHandle);
