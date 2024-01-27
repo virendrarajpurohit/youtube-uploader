@@ -392,11 +392,10 @@ async function uploadVideo(videoJSON, messageTransport) {
         catch (_b) { }
         messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
     }
-    console.log("1");
-    await sleep(1000);
+    //await sleep(1000);
     await page.waitForXPath(nextBtnXPath);
     // click next button
-    await sleep(1000);
+    //await sleep(1000);
         const extractedText2 = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
@@ -411,10 +410,10 @@ async function uploadVideo(videoJSON, messageTransport) {
     await next[0].click();
     await page.waitForXPath(nextBtnXPath);
     // click next button
-    await sleep(1000);
+    //await sleep(1000);
     next = await page.$x(nextBtnXPath);
     await next[0].click();
-    console.log("2");
+   // console.log("2");
             const extractedText = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
