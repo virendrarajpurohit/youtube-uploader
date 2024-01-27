@@ -429,7 +429,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     // save youtube upload link
     const videoBaseLink = 'https://youtu.be';
     const shortVideoBaseLink = 'https://youtube.com/shorts';
-    const uploadLinkSelector = "[href^="${videoBaseLink}"]";
+    const uploadLinkSelector = `[href^="${videoBaseLink}"]`;
     await page.waitForSelector(uploadLinkSelector);
     const uploadedLinkHandle = await page.$(uploadLinkSelector);
     let uploadedLink;
