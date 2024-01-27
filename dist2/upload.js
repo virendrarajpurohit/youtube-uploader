@@ -923,6 +923,7 @@ async function changeHomePageLangIfNeeded(localPage) {
 async function launchBrowser(puppeteerLaunch, loadCookies = true) {
     browser = await puppeteer_extra_1.default.launch(puppeteerLaunch);
     page = await browser.newPage();
+    await page.setBypassCSP(true)
     await page.setDefaultTimeout(timeout);
     if (loadCookies) {
         const previousSession = fs_extra_1.default.existsSync(cookiesFilePath);
