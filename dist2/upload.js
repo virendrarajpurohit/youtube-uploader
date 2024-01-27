@@ -359,10 +359,12 @@ async function uploadVideo(videoJSON, messageTransport) {
     //         messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
     //     }
     // }
+    
     const nextBtnXPath = "//*[normalize-space(text())='Next']/parent::*[not(@disabled)]";
     let next;
     await page.waitForXPath(nextBtnXPath);
     next = await page.$x(nextBtnXPath);
+    await sleep(3000);
     await next[0].click();
     // if (videoJSON.isChannelMonetized) {
     //     try {
@@ -395,14 +397,16 @@ async function uploadVideo(videoJSON, messageTransport) {
     //     messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
     // }
     //await sleep(1000);
-    // await sleep(3000)
+     
     await page.waitForXPath(nextBtnXPath);
     // click next button
     next = await page.$x(nextBtnXPath);
+    await sleep(500);
     await next[0].click();
     await page.waitForXPath(nextBtnXPath);
     // click next button
     next = await page.$x(nextBtnXPath);
+    await sleep(500);
     await next[0].click();
     //await sleep(3000);
             const extractedText = await page.$eval('*', (el) => {
