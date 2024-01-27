@@ -309,9 +309,11 @@ async function uploadVideo(videoJSON, messageTransport) {
     // await page.click("#toggle-button")
     // Was having issues because of await page.$x("//*[normalize-space(text())='Show more']").click(), so I started messing with the line above.
     // The issue was obviously not the line above but I either way created code to ensure that Show more has been pressed before proceeding.
-    let showMoreButton = await page.$('#toggle-button');
-    if (showMoreButton == undefined)
-        throw `uploadVideo - Toggle button not found.`;
+    
+    
+    // let showMoreButton = await page.$('#toggle-button');
+    // if (showMoreButton == undefined)
+    //     throw `uploadVideo - Toggle button not found.`;
     // else {
     //      console.log( "Show more start." )
     //     while ((await page.$('ytcp-video-metadata-editor-advanced')) == undefined) {
@@ -322,78 +324,78 @@ async function uploadVideo(videoJSON, messageTransport) {
     //      console.log( "Show more finished." )
     // }
     // Add tags
-    if (tags) {
-        //show more
-        try {
-            await page.focus(`[aria-label="Tags"]`);
-            await page.type(`[aria-label="Tags"]`, tags.join(', ').substring(0, 495) + ', ');
-        }
-        catch (err) { }
-        messageTransport.debug(`  >> ${videoJSON.title} - Tags set to ${tags.join(', ')}`);
-    }
-    // Set pusblish to subscription feed and notify subscribers to false
-    if (videoJSON.publishToSubscriptionFeedAndNotifySubscribers === false) {
-        await page.waitForSelector("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
-        await page.click("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
-    }
+    // if (tags) {
+    //     //show more
+    //     try {
+    //         await page.focus(`[aria-label="Tags"]`);
+    //         await page.type(`[aria-label="Tags"]`, tags.join(', ').substring(0, 495) + ', ');
+    //     }
+    //     catch (err) { }
+    //     messageTransport.debug(`  >> ${videoJSON.title} - Tags set to ${tags.join(', ')}`);
+    // }
+    // // Set pusblish to subscription feed and notify subscribers to false
+    // if (videoJSON.publishToSubscriptionFeedAndNotifySubscribers === false) {
+    //     await page.waitForSelector("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
+    //     await page.click("#notify-subscribers > div:nth-child(1) > div:nth-child(1)");
+    // }
     // Selecting video language
-    if (videoLang) {
-        const langHandler = await page.$x("//*[normalize-space(text())='Video language']");
-        await page.evaluate((el) => el.click(), langHandler[0]);
-        // translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')
-        const langName = await page.$x('//*[normalize-space(translate(text(),"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"))=\'' +
-            videoLang.toLowerCase() +
-            "']");
-        await page.evaluate((el) => el.click(), langName[langName.length - 1]);
-        messageTransport.debug(`  >> ${videoJSON.title} - Video language set to ${videoLang}`);
-    }
+    // if (videoLang) {
+    //     const langHandler = await page.$x("//*[normalize-space(text())='Video language']");
+    //     await page.evaluate((el) => el.click(), langHandler[0]);
+    //     // translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')
+    //     const langName = await page.$x('//*[normalize-space(translate(text(),"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz"))=\'' +
+    //         videoLang.toLowerCase() +
+    //         "']");
+    //     await page.evaluate((el) => el.click(), langName[langName.length - 1]);
+    //     messageTransport.debug(`  >> ${videoJSON.title} - Video language set to ${videoLang}`);
+    // }
     // Setting Game Title ( Will also set Category to gaming )
-    if (gameTitleSearch) {
-        const resultSelectGame = await selectGame(page, gameTitleSearch, messageTransport, videoJSON.gameSelector);
-        if (resultSelectGame) {
-            messageTransport.debug(`  >> ${videoJSON.title} - Game title set to ${gameTitleSearch}`);
-        }
-        else {
-            messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
-        }
-    }
+    // if (gameTitleSearch) {
+    //     const resultSelectGame = await selectGame(page, gameTitleSearch, messageTransport, videoJSON.gameSelector);
+    //     if (resultSelectGame) {
+    //         messageTransport.debug(`  >> ${videoJSON.title} - Game title set to ${gameTitleSearch}`);
+    //     }
+    //     else {
+    //         messageTransport.warn(`  >> ${videoJSON.title} - Failed setting game title`);
+    //     }
+    // }
     const nextBtnXPath = "//*[normalize-space(text())='Next']/parent::*[not(@disabled)]";
     let next;
     await page.waitForXPath(nextBtnXPath);
     next = await page.$x(nextBtnXPath);
     await next[0].click();
-    if (videoJSON.isChannelMonetized) {
-        try {
-            await page.waitForSelector('#child-input ytcp-video-monetization', { visible: true, timeout: 10000 });
-            await page.waitForTimeout(1500);
-            await page.click('#child-input ytcp-video-monetization');
-            await page.waitForSelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #radioContainer #onRadio');
-            await page.evaluate(() => document.querySelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #radioContainer #onRadio').click());
-            await page.waitForTimeout(1500);
-            await page.waitForSelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #save-button', { visible: true });
-            await page.click('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #save-button');
-            await page.waitForTimeout(1500);
-            await page.waitForXPath(nextBtnXPath);
-            next = await page.$x(nextBtnXPath);
-            await next[0].click();
-        }
-        catch (_a) { }
-        try {
-            await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container', { visible: true, timeout: 1000 });
-            await page.evaluate(() => document.querySelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container').click());
-            await page.waitForTimeout(1500);
-            await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #submit-questionnaire-button', { visible: true });
-            await page.evaluate(() => document.querySelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #submit-questionnaire-button').click());
-            await page.waitForXPath(nextBtnXPath);
-            next = await page.$x(nextBtnXPath);
-            await next[0].click();
-            await page.waitForTimeout(1500);
-        }
-        catch (_b) { }
-        messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
-    }
+    // if (videoJSON.isChannelMonetized) {
+    //     try {
+    //         await page.waitForSelector('#child-input ytcp-video-monetization', { visible: true, timeout: 10000 });
+    //         await page.waitForTimeout(1500);
+    //         await page.click('#child-input ytcp-video-monetization');
+    //         await page.waitForSelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #radioContainer #onRadio');
+    //         await page.evaluate(() => document.querySelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #radioContainer #onRadio').click());
+    //         await page.waitForTimeout(1500);
+    //         await page.waitForSelector('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #save-button', { visible: true });
+    //         await page.click('ytcp-video-monetization-edit-dialog.cancel-button-hidden .ytcp-video-monetization-edit-dialog #save-button');
+    //         await page.waitForTimeout(1500);
+    //         await page.waitForXPath(nextBtnXPath);
+    //         next = await page.$x(nextBtnXPath);
+    //         await next[0].click();
+    //     }
+    //     catch (_a) { }
+    //     try {
+    //         await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container', { visible: true, timeout: 1000 });
+    //         await page.evaluate(() => document.querySelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container').click());
+    //         await page.waitForTimeout(1500);
+    //         await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #submit-questionnaire-button', { visible: true });
+    //         await page.evaluate(() => document.querySelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #submit-questionnaire-button').click());
+    //         await page.waitForXPath(nextBtnXPath);
+    //         next = await page.$x(nextBtnXPath);
+    //         await next[0].click();
+    //         await page.waitForTimeout(1500);
+    //     }
+    //     catch (_b) { }
+    //     messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
+    // }
     //await sleep(1000);
-     await sleep(3000)
+    // await sleep(3000)
     await page.waitForXPath(nextBtnXPath);
     // click next button
     next = await page.$x(nextBtnXPath);
@@ -402,7 +404,7 @@ async function uploadVideo(videoJSON, messageTransport) {
     // click next button
     next = await page.$x(nextBtnXPath);
     await next[0].click();
-    await sleep(3000);
+    //await sleep(3000);
             const extractedText = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
