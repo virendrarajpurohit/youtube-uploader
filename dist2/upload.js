@@ -379,7 +379,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         }
         catch (_a) { }
         try {
-            await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container', { visible: true, timeout: 10000 });
+            await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container', { visible: true, timeout: 1000 });
             await page.evaluate(() => document.querySelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #checkbox-container').click());
             await page.waitForTimeout(1500);
             await page.waitForSelector('.ytpp-self-certification-questionnaire .ytpp-self-certification-questionnaire #submit-questionnaire-button', { visible: true });
@@ -392,6 +392,7 @@ async function uploadVideo(videoJSON, messageTransport) {
         catch (_b) { }
         messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
     }
+    console.log("1");
     await sleep(100);
     await page.waitForXPath(nextBtnXPath);
     // click next button
@@ -403,10 +404,10 @@ async function uploadVideo(videoJSON, messageTransport) {
     await sleep(100);
     next = await page.$x(nextBtnXPath);
     await next[0].click();
-    await sleep(5000);
+    console.log("2");
     if (videoJSON.publishType) {
         await page.waitForSelector('#privacy-radios *[name="' + videoJSON.publishType + '"]', { visible: true });
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(100);
         await page.click('#privacy-radios *[name="' + videoJSON.publishType + '"]');
         messageTransport.debug(`  >> ${videoJSON.title} - Publish type set`);
     }
