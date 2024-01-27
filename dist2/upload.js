@@ -393,27 +393,16 @@ async function uploadVideo(videoJSON, messageTransport) {
         messageTransport.debug(`  >> ${videoJSON.title} - Channel monetization set`);
     }
     //await sleep(1000);
+    // await sleep(2000)
     await page.waitForXPath(nextBtnXPath);
     // click next button
-    //await sleep(1000);
-        const extractedText2 = await page.$eval('*', (el) => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNode(el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        return window.getSelection().toString();
-    });
-    console.log(extractedText2);
-
     next = await page.$x(nextBtnXPath);
     await next[0].click();
     await page.waitForXPath(nextBtnXPath);
     // click next button
-    //await sleep(1000);
     next = await page.$x(nextBtnXPath);
     await next[0].click();
-   // console.log("2");
+    await sleep(1000);
             const extractedText = await page.$eval('*', (el) => {
         const selection = window.getSelection();
         const range = document.createRange();
